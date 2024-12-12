@@ -9,19 +9,11 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         uic.loadUi('ui.ui', self)
-
-        # Инициализация списка окружностей и кофе
         self.circles = []
         self.coffee_list = []
-
-        # Инициализация формы добавления/редактирования кофе
         self.add_edit_form = None
-
-        # Подключение обработчиков событий
         self.btnAddCircle.clicked.connect(self.add_circle)
         self.btnEditCoffee.clicked.connect(self.open_add_edit_form)
-
-        # Загрузка существующих данных кофе
         self.load_coffee_data()
 
     def add_circle(self):
@@ -73,8 +65,6 @@ class AddEditCoffeeForm(QtWidgets.QDialog):
         except Exception as e:
             print(f"Ошибка загрузки UI: {e}")
             sys.exit(1)
-
-        # Подключение обработчиков событий
         self.btnSave.clicked.connect(self.save_coffee)
         self.btnCancel.clicked.connect(self.close)
 
@@ -82,16 +72,14 @@ class AddEditCoffeeForm(QtWidgets.QDialog):
         coffee_name = self.lineEditCoffeeName.text()
         coffee_type = self.lineEditCoffeeType.text()
 
-        # Сохранение кофе в список родительского окна
         if coffee_name and coffee_type:
             coffee_entry = {'название кофе': coffee_name, 'тип кофе': coffee_type}
             self.parent().coffee_list.append(coffee_entry)
-            self.parent().save_coffee_data()  # Сохраняем данные в файл
+            self.parent().save_coffee_data()
             print(f"Сохранено: {coffee_name}, Тип: {coffee_type}")
             self.close()
         else:
             print("Имя и тип кофе не могут быть пустыми.")
-
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
