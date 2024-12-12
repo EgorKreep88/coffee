@@ -48,15 +48,17 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def load_coffee_data(self):
         try:
-            with open('coffee.json', 'r') as file:
+            with open('coffee.json', 'r', encoding='utf-8') as file:
                 self.coffee_list = json.load(file)
                 print("Данные о кофе загружены:", self.coffee_list)
         except FileNotFoundError:
             print("Файл с данными о кофе не найден. Создан новый файл.")
             self.coffee_list = []
-        except json.JSONDecodeError:
-            print("Ошибка чтения данных о кофе. Файл поврежден.")
+        except json.JSONDecodeError as e:
+            print(f"Ошибка чтения данных о кофе. Файл поврежден: {e}")
             self.coffee_list = []
+        except Exception as e:
+            print(f"Произошла ошибка: {e}")
 
     def save_coffee_data(self):
         with open('coffee.json', 'w', encoding='utf-8') as file:
